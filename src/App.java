@@ -2,12 +2,15 @@
 import trees.Tree;
 import trees.intTree;
 import models.Persona;
+import nodes.Node;
+import structures.graphs.Graph;
 
 public class App {
     public static void main(String[] args) throws Exception {
         System.out.println("Estudiante: Edison Mendieta");
         //runIntTree();
-        runTree();
+        //runTree();
+        runGraph();
 
     }
     private static void runTree() {
@@ -31,7 +34,6 @@ public class App {
         }
     }
     
-
     private static void runIntTree(){
         intTree tree = new intTree();
 
@@ -47,5 +49,29 @@ public class App {
         tree.inOrder();
         System.out.println("\nSize: " + tree.size());
         
+    }
+
+    private static void runGraph(){
+        Graph<String> graph = new Graph<>(); 
+        Node<String> nA = new Node<String>("A");
+        Node<String> nB = new Node<String>("B");
+        Node<String> nC = new Node<String>("C");
+        Node<String> nD = new Node<String>("D");
+
+        graph.addEdge(nA, nB);
+        graph.addEdge(nB, nD);
+        graph.addEdge(nC, nD);
+
+        graph.printGraph();
+
+        Node<String>[] neighbors = graph.getNeighbors(nA);
+
+        System.out.print("Neighbors de A: ");
+        for(Node<String> neigtbor : neighbors){
+            System.out.println(neigtbor + "");
+        }
+
+        
+
     }
 }
