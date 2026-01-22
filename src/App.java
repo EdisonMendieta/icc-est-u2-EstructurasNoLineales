@@ -1,18 +1,86 @@
 
 import trees.Tree;
 import trees.intTree;
+
+import java.nio.file.Path;
+
 import models.Persona;
 import nodes.Node;
 import structures.graphs.Graph;
+import structures.graphs.PathFinder;
+import structures.graphs.PathResul;
+import structures.graphs.implementations.BFSPathFinder;
 
 public class App {
     public static void main(String[] args) throws Exception {
         System.out.println("Estudiante: Edison Mendieta");
         //runIntTree();
         //runTree();
-        runGraph();
+        //runGraph();
+        runGraphRecoorido();
+        
 
     }
+
+    private static void runGraphRecoorido(){
+
+        Graph<Persona> grafo = new Graph<>();
+
+        Persona pC23 = new Persona("Carlos", 23);
+        Persona pL18 = new Persona("Luis", 18);
+        Persona pA23 = new Persona("Andres", 23);
+        Persona pA30 = new Persona("Ana", 30);
+        Persona pJ25 = new Persona("Juan", 25);
+        Persona pAn20 = new Persona("Ana", 20);
+        Persona pM10 = new Persona("Mateo", 10);
+        Persona pJ10 = new Persona("Julio", 10);
+
+        grafo.addEdge(new Node<>(pC23), new Node<>(pA30));
+        grafo.addConocido(new Node<>(pC23), new Node<>(pL18));
+        grafo.addConocido(new Node<>(pC23), new Node<>(pA23));
+        grafo.addConocido(new Node<>(pL18), new Node<>(pJ25));
+        grafo.addEdge(new Node<>(pL18), new Node<>(pA23));
+        grafo.addConocido(new Node<>(pAn20), new Node<>(pA30));
+        grafo.addEdge(new Node<>(pA30), new Node<>(pM10));
+        grafo.addEdge(new Node<>(pM10), new Node<>(pJ10));
+
+
+        System.out.println("BFS");
+
+        PathFinder<Persona> finder = new BFSPathFinder<>();
+        PathResul<Persona> resultado = finder.find(grafo, new Node<>(pC23),new Node<>(pJ10) );
+
+        System.err.println("Orden BFs");
+        resultado.getVisitados().forEach(node -> System.err.println(node.getValue() + ""));
+
+        System.err.println("Ruta encontrada ");
+        resultado.getPath().forEach(node -> System.err.println(node.getValue()));
+    }
+
+    private static void runGrapshRecorridos() {
+        Graph<Persona> grafo = new Graph<>();
+        Node<Persona> pC23 = new Node<Persona>(new Persona("Carlos", 23));
+        Node<Persona> pL18 = new Node<Persona>(new Persona("Luis", 18));
+        Node<Persona> pA23 = new Node<Persona>(new Persona("Andres", 23));
+        Node<Persona> pA30 = new Node<Persona>(new Persona("Ana", 30));
+        Node<Persona> pJ25 = new Node<Persona>(new Persona("Juan", 25));
+        Node<Persona> pAn20 = new Node<Persona>(new Persona("Andre", 20));
+        
+        grafo.addConocido(pC23,pL18);
+        grafo.addEdge(pC23,pA30 );
+        grafo.addConocido(pC23,pA23);
+
+        grafo.addConocido(pL18,pJ25);
+        grafo.addEdge(pL18,pA23);
+
+
+        grafo.addConocido(pA30,pAn20);
+        System.out.println("====recorrido bfs====");
+        grafo.bfs(pC23);
+        System.out.println("====recorrido bfs====");
+        grafo.dfs(pC23);
+    }
+
     private static void runTree() {
         Tree<Persona> tree = new Tree<>();
         tree.insert(new Persona("Pablo", 21));
